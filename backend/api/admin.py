@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from backend.api.models import Ingredient
+from .models import Ingredient
 
 
 @admin.register(Ingredient)

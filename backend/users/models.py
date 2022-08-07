@@ -1,26 +1,27 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
     email = models.EmailField(
-        verbose_name='Адрес электронной почты',
+        verbose_name=_('e-mail'),
         max_length=254,
         unique=True,
     )
     username = models.CharField(
-        verbose_name='Имя пользователя',
+        verbose_name=_('username'),
         max_length=150,
         unique=True,
     )
     first_name = models.CharField(
-        verbose_name='Имя',
+        verbose_name=_('first name'),
         max_length=150,
         blank=False,
         null=False,
     )
     last_name = models.CharField(
-        verbose_name='Фамилия',
+        verbose_name=_('last name'),
         max_length=150,
         blank=False,
         null=False,
@@ -32,7 +33,9 @@ class User(AbstractUser):
     ]
 
     class Meta:
-        ordering = ('-pk',)
+        ordering = ['-pk']
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
 
 
 class Follow(models.Model):
@@ -40,15 +43,19 @@ class Follow(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='follower',
+        verbose_name=_('follower'),
     )
     following = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
+        verbose_name=_('following'),
     )
 
     class Meta:
         ordering = ['-id']
+        verbose_name = _('follow')
+        verbose_name_plural = _('follow')
         constraints = [
             models.UniqueConstraint(
                 fields=['follower', 'following'],

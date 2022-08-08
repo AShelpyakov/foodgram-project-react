@@ -8,7 +8,6 @@ class Ingredient(models.Model):
         max_length=200,
         blank=False,
         null=False,
-        unique=True,
     )
     measurement_unit = models.CharField(
         verbose_name=_('measurement unit'),
@@ -21,3 +20,9 @@ class Ingredient(models.Model):
         ordering = ['name']
         verbose_name = _('ingredient')
         verbose_name_plural = _('ingredients')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['name', 'measurement_unit'],
+                name='%(app_label)s_%(class)s_unique',
+            ),
+        ]

@@ -26,3 +26,31 @@ class Ingredient(models.Model):
                 name='%(app_label)s_%(class)s_unique',
             ),
         ]
+
+
+class Tag(models.Model):
+    name = models.CharField(
+        verbose_name=_('tag name'),
+        max_length=200,
+        blank=False,
+        null=False,
+        unique=True
+    )
+    color = models.CharField(
+        verbose_name=_('tag color'),
+        max_length=7,
+        blank=False,
+        null=True,
+    )
+    slug = models.SlugField(
+        verbose_name=_('tas slug'),
+        max_length=200,
+        blank=False,
+        null=True,
+        unique=True,
+    )
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = _('tag')
+        verbose_name_plural = _('tags')

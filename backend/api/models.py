@@ -32,6 +32,9 @@ class Ingredient(models.Model):
             ),
         ]
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(
@@ -59,6 +62,9 @@ class Tag(models.Model):
         ordering = ['name']
         verbose_name = _('tag')
         verbose_name_plural = _('tags')
+
+    def __str__(self):
+        return self.name
 
 
 class Recipe(models.Model):
@@ -102,6 +108,9 @@ class Recipe(models.Model):
         verbose_name = _('recipe')
         verbose_name_plural = _('recipes')
 
+    def __str__(self):
+        return self.name
+
 
 class RecipeIngredients(models.Model):
     ingredient = models.ForeignKey(
@@ -131,3 +140,51 @@ class RecipeIngredients(models.Model):
         ]
         verbose_name = _('recipe ingredient')
         verbose_name_plural = _('recipe ingredients')
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('user'),
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        verbose_name=_('recipe'),
+    )
+
+    class Meta:
+        ordering = ['-id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='%(app_label)s_%(class)s_unique',
+            )
+        ]
+        verbose_name = _('favorite')
+        verbose_name_plural = _('favorites')
+
+
+class ShoppingCart(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name=_('user'),
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        verbose_name=_('recipe'),
+    )
+
+    class Meta:
+        ordering = ['-id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='%(app_label)s_%(class)s_unique',
+            )
+        ]
+        verbose_name = _('shopping cart')
+        verbose_name_plural = _('shopping carts')

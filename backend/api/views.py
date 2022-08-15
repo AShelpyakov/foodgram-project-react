@@ -11,10 +11,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.utils.translation import gettext_lazy as _
 
-from .models import Ingredient, Recipe, Tag, Favorite
+from .models import Ingredient, Recipe, Tag, Favorite, ShoppingCart
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (
-    IngredientSerializer, TagSerializer, FavoriteSerializer
+    IngredientSerializer, TagSerializer, FavoriteSerializer,
+    ShoppingCartSerializer
 )
 
 
@@ -66,3 +67,42 @@ class RecipeViewSet(ModelViewSet):
             )
         favorite.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(
+        detail=True,
+        permission_classes=(IsAuthenticated,),
+        methods=('post',)
+    )
+    def shopping_cart(self, request, pk):
+        data = {
+            'user': request.user.id,
+            'recipe': pk,
+        }
+        serializer = ShoppingCartSerializer(
+            data=data,
+            context={'request': request}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    @shopping_cart.mapping.delete
+    def delete_shopping_cart(self, request, pk):
+        user = request.user
+        try:
+            shopping_cart = ShoppingCart.objects.get(user=user, recipe=pk)
+        except ShoppingCart.DoesNotExist:
+            return Response(
+                {'error': _('the recipe is not in shopping cart')},
+                status=HTTP_400_BAD_REQUEST,
+            )
+        shopping_cart.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(
+        detail=False,
+        permission_classes=(IsAuthenticated,),
+        methods=('get',)
+    )
+    def download_shopping_cart(self, request):
+        pass

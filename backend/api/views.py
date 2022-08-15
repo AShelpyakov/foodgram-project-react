@@ -1,3 +1,5 @@
+from django.db.models import Sum
+from django.http import HttpResponse
 from rest_framework import filters, viewsets
 from rest_framework.decorators import action
 from rest_framework.status import (
@@ -11,7 +13,10 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.utils.translation import gettext_lazy as _
 
-from .models import Ingredient, Recipe, Tag, Favorite, ShoppingCart
+from .models import (
+    Ingredient, Favorite, Recipe, RecipeIngredients, ShoppingCart, Tag
+)
+
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (
     IngredientSerializer, TagSerializer, FavoriteSerializer,
@@ -105,4 +110,22 @@ class RecipeViewSet(ModelViewSet):
         methods=('get',)
     )
     def download_shopping_cart(self, request):
-        pass
+        user = request.user
+        values_list = ('ingredient__name', 'ingredient__measurement_unit')
+        ingredients = RecipeIngredients.objects.filter(
+            recipe__shoppingcart__user=user).values(*values_list).annotate(
+            total_amount=Sum('amount')).order_by(*values_list)
+        shopping_cart = _('shopping cart:') + '\n'
+        for ingredient in ingredients:
+            shopping_cart += (
+                f'{ingredient["ingredient__name"]} - '
+                + f'{ingredient["total_amount"]}'
+                + f'{ingredient["ingredient__measurement_unit"]}.'
+                + '\n'
+            )
+        response = HttpResponse(shopping_cart, content_type='text/plain')
+        response['Content-Disposition'] = (
+            'attachment; '
+            + 'filename="shopping_cart.txt"'
+        )
+        return response

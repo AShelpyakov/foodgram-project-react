@@ -13,10 +13,10 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.utils.translation import gettext_lazy as _
 
+from .filters import RecipeFilter
 from .models import (
     Ingredient, Favorite, Recipe, RecipeIngredients, ShoppingCart, Tag
 )
-
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (
     IngredientSerializer, TagSerializer, FavoriteSerializer,
@@ -42,6 +42,7 @@ class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthorOrReadOnly,)
     http_method_names = ('get', 'post', 'patch', 'delete')
+    filterset_class = RecipeFilter
 
     def get_serializer_class(self):
         if self.request.method in SAFE_METHODS:

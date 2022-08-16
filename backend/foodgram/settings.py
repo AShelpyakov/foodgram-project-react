@@ -162,6 +162,10 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 EMAIL_HOST_USER = 'no-reply@foodgram.net'
 
 DJOSER = {
+    'PERMISSIONS': {
+        'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+        'user_list': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],
+    },
     'SERIALIZERS': {
         'user': 'users.serializers.CustomUserSerializer',
         'current_user': 'users.serializers.CustomUserSerializer',

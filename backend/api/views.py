@@ -8,7 +8,7 @@ from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST
 )
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from django.utils.translation import gettext_lazy as _
@@ -20,7 +20,7 @@ from .models import (
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (
     IngredientSerializer, TagSerializer, FavoriteSerializer,
-    ShoppingCartSerializer
+    ShoppingCartSerializer, RecipeReadSerializer, RecipeWriteSerializer
 )
 
 
@@ -41,6 +41,12 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class RecipeViewSet(ModelViewSet):
     queryset = Recipe.objects.all()
     permission_classes = (IsAuthorOrReadOnly,)
+    http_method_names = ('get', 'post', 'patch', 'delete')
+
+    def get_serializer_class(self):
+        if self.request.method in SAFE_METHODS:
+            return RecipeReadSerializer
+        return RecipeWriteSerializer
 
     @action(
         detail=True,

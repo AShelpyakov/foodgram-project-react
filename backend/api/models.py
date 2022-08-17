@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .constants import COOKING_TIME_MIN_VALUE, INGREDIENT_MIN_AMOUNT
 
 User = get_user_model()
 
@@ -98,7 +99,11 @@ class Recipe(models.Model):
         verbose_name=_('cooking time in minutes'),
         validators=[
             MinValueValidator(
-                1, message=_('Time must be more then 0')
+                COOKING_TIME_MIN_VALUE,
+                message=(
+                    _('Time must be equal or more then ')
+                    + f'{COOKING_TIME_MIN_VALUE}'
+                ),
             )
         ]
     )
@@ -126,7 +131,13 @@ class RecipeIngredients(models.Model):
     amount = models.PositiveSmallIntegerField(
         verbose_name=_('amount'),
         validators=[
-            MinValueValidator(1, message=_('Amount must be more then 0'))
+            MinValueValidator(
+                INGREDIENT_MIN_AMOUNT,
+                message=(
+                    _('Amount must be equal or more then ')
+                    + f'{INGREDIENT_MIN_AMOUNT}'
+                ),
+            )
         ],
     )
 

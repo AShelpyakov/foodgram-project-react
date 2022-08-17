@@ -1,6 +1,10 @@
+from django.db import transaction
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import ValidationError
 
+from .constants import COOKING_TIME_MIN_VALUE, INGREDIENT_MIN_AMOUNT
 from .models import (
     Ingredient, Favorite, Recipe,
     RecipeIngredients, Tag, ShoppingCart,
@@ -21,6 +25,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class RecipeIngredientsSerializer(serializers.ModelSerializer):
+    id = serializers.ReadOnlyField(source='ingredient.id')
     name = serializers.ReadOnlyField(source='ingredient.name')
     measurement_unit = serializers.ReadOnlyField(
         source='ingredient.measurement_unit'
@@ -116,5 +121,86 @@ class RecipeReadSerializer(serializers.ModelSerializer):
         ).exists()
 
 
+class IngredientWriteSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(write_only=True)
+    amount = serializers.IntegerField(write_only=True)
+
+    class Meta:
+        model = Ingredient
+        fields = ('id', 'amount')
+
+
 class RecipeWriteSerializer(serializers.ModelSerializer):
-    pass
+    tags = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(), many=True
+    )
+    ingredients = IngredientWriteSerializer(many=True)
+    image = Base64ImageField(max_length=None, use_url=True)
+
+    class Meta:
+        model = Recipe
+        fields = (
+            'ingredients', 'tags', 'image', 'name', 'text', 'cooking_time',
+        )
+
+    def create_ingredients(self, ingredients, recipe):
+        for ingredient in ingredients:
+            amount = ingredient.get('amount')
+            ingredient_object = Ingredient.objects.get(id=ingredient.get('id'))
+            recipe.ingredients.add(
+                ingredient_object,
+                through_defaults={'amount': amount}
+            )
+
+    def create_tags(self, tags, recipe):
+        for tag in tags:
+            recipe.tags.add(tag)
+
+    def create(self, validated_data):
+        tags = validated_data.pop('tags')
+        ingredients = validated_data.pop('ingredients')
+        with transaction.atomic():
+            recipe = Recipe.objects.create(**validated_data)
+            self.create_tags(tags, recipe)
+            self.create_ingredients(ingredients, recipe)
+        return recipe
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.text = validated_data.get('text', instance.text)
+        instance.image = validated_data.get('image', instance.image)
+        instance.cooking_time = validated_data.get(
+            'cooking_time',
+            instance.cooking_time,
+        )
+        instance.tags.clear()
+        tags = validated_data.get('tags')
+        with transaction.atomic():
+            self.create_tags(tags, instance)
+            RecipeIngredients.objects.filter(recipe=instance).all().delete()
+            ingredients = validated_data.get('ingredients')
+            self.create_ingredients(ingredients, instance)
+            instance.save()
+        return instance
+
+    def to_representation(self, instance):
+        return RecipeReadSerializer(instance, context=self.context).data
+
+    def validate(self, data):
+        if len(data['tags']) == 0:
+            raise ValidationError(_('Must be minimum one tag'))
+        if len(data['tags']) > len(set(data['tags'])):
+            raise ValidationError(_('Tags must be not identical'))
+        if len(data['ingredients']) == 0:
+            raise ValidationError(_('Must be minimum one ingredient'))
+        ingredients = []
+        for ingredient in data['ingredients']:
+            if ingredient['amount'] < INGREDIENT_MIN_AMOUNT:
+                raise ValidationError(
+                    _('Amount must be equal or more then ')
+                    + f'{INGREDIENT_MIN_AMOUNT}'
+                )
+            ingredients.append(ingredient['id'])
+        if len(ingredients) > len(set(ingredients)):
+            raise ValidationError(_('Ingredients must be not identical'))
+        return data

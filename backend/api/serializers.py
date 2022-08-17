@@ -1,15 +1,16 @@
 from django.db import transaction
+from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
-from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import ValidationError
+from users.serializers import CustomUserSerializer
 
-from .constants import COOKING_TIME_MIN_VALUE, INGREDIENT_MIN_AMOUNT
+from .constants import INGREDIENT_MIN_AMOUNT
 from .models import (
     Ingredient, Favorite, Recipe,
-    RecipeIngredients, Tag, ShoppingCart,
+    RecipeIngredients, ShoppingCart, Tag,
 )
-from users.serializers import CustomUserSerializer
+from .shared_serializers import ShortRecipeSerializer
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -34,13 +35,6 @@ class RecipeIngredientsSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeIngredients
         fields = ('id', 'name', 'measurement_unit', 'amount')
-
-
-class ShortRecipeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Recipe
-        fields = ('id', 'name', 'image', 'cooking_time')
-        read_only_fields = ('id', 'name', 'image', 'cooking_time')
 
 
 class FavoriteSerializer(serializers.ModelSerializer):

@@ -3,8 +3,8 @@ from django.contrib.admin import display
 from django.utils.translation import gettext_lazy as _
 
 from .models import (
-    Ingredient, Favorite, Recipe,
-    RecipeIngredients, Tag, ShoppingCart,
+    Favorite, Ingredient, Recipe,
+    RecipeIngredients, ShoppingCart, Tag,
 )
 
 

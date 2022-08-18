@@ -3,11 +3,12 @@ from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+
 from users.serializers import CustomUserSerializer
 
 from .constants import INGREDIENT_MIN_AMOUNT
 from .models import (
-    Ingredient, Favorite, Recipe,
+    Favorite, Ingredient, Recipe,
     RecipeIngredients, ShoppingCart, Tag,
 )
 from .shared_serializers import ShortRecipeSerializer

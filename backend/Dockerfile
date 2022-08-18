@@ -1,6 +1,6 @@
-FROM python:3.8-buster
-#FROM python:3.8-slim
-#RUN apt-get update && apt-get -y install g++ libpq-dev gcc unixodbc unixodbc-dev
+FROM python:3.8-slim
+# ARM64 (apple m1) bug mitigation
+RUN apt-get update && apt-get -y install g++ libpq-dev gcc unixodbc unixodbc-dev
 
 WORKDIR /app
 COPY ./ ./

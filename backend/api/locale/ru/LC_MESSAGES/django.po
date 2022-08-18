@@ -1,0 +1,165 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-18 19:53+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: admin.py:43 models.py:19
+msgid "measurement unit"
+msgstr "единица измерения"
+
+#: models.py:13
+msgid "ingredient name"
+msgstr "имя ингредиента"
+
+#: models.py:27 models.py:124
+msgid "ingredient"
+msgstr "ингредиент"
+
+#: models.py:28
+msgid "ingredients"
+msgstr "ингредиенты"
+
+#: models.py:42
+msgid "tag name"
+msgstr "название тега"
+
+#: models.py:49
+msgid "tag color"
+msgstr "цвет тега"
+
+#: models.py:55
+msgid "tag slug"
+msgstr "slug тега"
+
+#: models.py:64
+msgid "tag"
+msgstr "тег"
+
+#: models.py:65 models.py:80
+msgid "tags"
+msgstr "теги"
+
+#: models.py:73
+msgid "recipe name"
+msgstr "название рецепта"
+
+#: models.py:85
+msgid "author"
+msgstr "автор"
+
+#: models.py:89
+msgid "list ingredients"
+msgstr "список ингредиентов"
+
+#: models.py:93
+msgid "recipe image"
+msgstr "картинка рецепта"
+
+#: models.py:96
+msgid "recipe text"
+msgstr "текст рецепта"
+
+#: models.py:99
+msgid "cooking time in minutes"
+msgstr "время приготовления в минутах"
+
+#: models.py:104
+msgid "Time must be equal or more then "
+msgstr "Время должно быть больше или равно "
+
+#: models.py:113 models.py:129 models.py:165 models.py:189
+msgid "recipe"
+msgstr "рецепт"
+
+#: models.py:114
+msgid "recipes"
+msgstr "рецепты"
+
+#: models.py:132
+msgid "amount"
+msgstr "сумма"
+
+#: models.py:137 serializers.py:195
+msgid "Amount must be equal or more then "
+msgstr "Сумма должна быть больше или равно "
+
+#: models.py:152
+msgid "recipe ingredient"
+msgstr "ингредиент рецепта"
+
+#: models.py:153
+msgid "recipe ingredients"
+msgstr "ингредиенты рецепта"
+
+#: models.py:160 models.py:184
+msgid "user"
+msgstr "пользователь"
+
+#: models.py:176
+msgid "favorite"
+msgstr "избранное"
+
+#: models.py:177
+msgid "favorites"
+msgstr "избранные"
+
+#: models.py:200
+msgid "shopping cart"
+msgstr "список покупок"
+
+#: models.py:201
+msgid "shopping carts"
+msgstr "списки покупок"
+
+#: serializers.py:57
+msgid "the recipe is already in favorites"
+msgstr "рецепт уже в избранном"
+
+#: serializers.py:78
+msgid "the recipe is already in shopping cart"
+msgstr "рецепт уже в списке покупок"
+
+#: serializers.py:186
+msgid "Must be minimum one tag"
+msgstr "Должен быть хотя бы один тег"
+
+#: serializers.py:188
+msgid "Tags must be not identical"
+msgstr "Не должно быть одинаковых тегов"
+
+#: serializers.py:190
+msgid "Must be minimum one ingredient"
+msgstr "Должен быть хотя бы один ингредиент"
+
+#: serializers.py:200
+msgid "Ingredients must be not identical"
+msgstr "Не должно быть одинаковых ингредиентов"
+
+#: views.py:78
+msgid "the recipe is not in favorites"
+msgstr "такого рецепта нет в избранных"
+
+#: views.py:109
+msgid "the recipe is not in shopping cart"
+msgstr "такого рецепта нет в списке покупок"
+
+#: views.py:126
+msgid "shopping cart:"
+msgstr "список покупок:"

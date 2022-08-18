@@ -52,7 +52,7 @@ class Tag(models.Model):
         null=True,
     )
     slug = models.SlugField(
-        verbose_name=_('tas slug'),
+        verbose_name=_('tag slug'),
         max_length=200,
         blank=False,
         null=True,

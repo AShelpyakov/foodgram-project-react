@@ -1,7 +1,10 @@
-from api.shared_serializers import ShortRecipeSerializer
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 from djoser.serializers import UserSerializer
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
+
+from api.shared_serializers import ShortRecipeSerializer
 
 from .models import Follow
 
@@ -44,7 +47,6 @@ class FollowListSerializer(serializers.ModelSerializer):
         )
 
     def get_is_subscribed(self, obj):
-        logger.error(type(obj))
         request = self.context.get('request')
         return Follow.objects.filter(
             follower=request.user, following=obj
@@ -64,3 +66,31 @@ class FollowListSerializer(serializers.ModelSerializer):
 
     def get_recipes_count(self, obj):
         return obj.recipe_set.count()
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = ('follower', 'following')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Follow.objects.all(),
+                fields=fields,
+                message=_('You are already subscribed to this author'),
+            )
+        ]
+
+    def validate(self, data):
+        request = self.context.get('request')
+        following = data['following']
+        if request.user == following:
+            raise serializers.ValidationError(
+                _('You can not subscribe to yourself'),
+            )
+        return data
+
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        context = {'request': request}
+        return FollowListSerializer(
+            instance.following, context=context).data

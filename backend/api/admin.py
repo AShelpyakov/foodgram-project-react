@@ -12,6 +12,7 @@ from .models import (
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'measurement_unit')
     search_fields = ('name',)
+    list_filter = ('name',)
 
 
 @admin.register(Tag)
@@ -22,9 +23,12 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'author')
-    list_filter = ('author', 'tags')
+    list_display = ('id', 'name', 'author', 'recipe_favorite_count')
+    list_filter = ('author__email', 'name', 'tags__name')
     search_fields = ('author__email', 'name', 'tags__name')
+
+    def recipe_favorite_count(self, obj):
+        return obj.favorite_set.count()
 
 
 @admin.register(RecipeIngredients)

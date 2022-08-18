@@ -1,5 +1,6 @@
 from django.db.models.query import EmptyQuerySet
 from django_filters.rest_framework import FilterSet, filters
+from rest_framework.filters import SearchFilter
 
 from .models import Recipe
 
@@ -28,3 +29,7 @@ class RecipeFilter(FilterSet):
         if self.request.user.is_anonymous:
             return Recipe.objects.none()
         return queryset.filter(shoppingcart__user=self.request.user)
+
+
+class IngredientSearchFilter(SearchFilter):
+    search_param = 'name'

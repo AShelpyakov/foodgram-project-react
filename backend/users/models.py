@@ -55,7 +55,7 @@ class Follow(models.Model):
     class Meta:
         ordering = ['-id']
         verbose_name = _('follow')
-        verbose_name_plural = _('follow')
+        verbose_name_plural = _('follows')
         constraints = [
             models.UniqueConstraint(
                 fields=['follower', 'following'],

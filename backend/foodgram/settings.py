@@ -172,8 +172,8 @@ EMAIL_HOST_USER = 'no-reply@foodgram.net'
 
 DJOSER = {
     'SERIALIZERS': {
-        'user': 'users.serializers.CustomUserSerializer',
-        'current_user': 'users.serializers.CustomUserSerializer',
+        'user': 'users.serializers.SubscribedUserSerializer',
+        'current_user': 'users.serializers.SubscribedUserSerializer',
     },
     'PERMISSIONS': {
         'user': ['djoser.permissions.CurrentUserOrAdminOrReadOnly'],

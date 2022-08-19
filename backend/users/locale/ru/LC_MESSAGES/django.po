@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-07 18:54+0500\n"
+"POT-Creation-Date: 2022-08-19 14:09+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,8 +56,22 @@ msgstr "подписчик"
 msgid "following"
 msgstr "автор рецептов"
 
-#: models.py:57 models.py:58
+#: models.py:57
 #, fuzzy
 #| msgid "follower"
 msgid "follow"
 msgstr "подписка"
+
+#: models.py:58
+#, fuzzy
+#| msgid "follower"
+msgid "follows"
+msgstr "подписки"
+
+#: serializers.py:79
+msgid "You are already subscribed to this author"
+msgstr "Ты уже подписан на этого автора"
+
+#: serializers.py:88
+msgid "You can not subscribe to yourself"
+msgstr "Ты не можешь подписаться на самого себя"

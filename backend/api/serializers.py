@@ -4,7 +4,7 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from users.serializers import CustomUserSerializer
+from users.serializers import SubscribedUserSerializer
 
 from .constants import INGREDIENT_MIN_AMOUNT
 from .models import (
@@ -81,7 +81,7 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
 
 
 class RecipeReadSerializer(serializers.ModelSerializer):
-    author = CustomUserSerializer()
+    author = SubscribedUserSerializer()
     tags = TagSerializer(many=True)
     ingredients = serializers.SerializerMethodField()
     is_favorited = serializers.SerializerMethodField()

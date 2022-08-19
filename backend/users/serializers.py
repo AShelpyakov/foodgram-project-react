@@ -5,13 +5,12 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from api.shared_serializers import ShortRecipeSerializer
-
 from .models import Follow
 
 User = get_user_model()
 
 
-class CustomUserSerializer(UserSerializer):
+class SubscribedUserSerializer(UserSerializer):
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
@@ -57,15 +56,25 @@ class FollowListSerializer(serializers.ModelSerializer):
         context = {'request': request}
         recipes_limit = request.query_params.get('recipes_limit')
         if recipes_limit is not None:
-            recipes = obj.recipe_set.all().order_by('-id')[:int(recipes_limit)]
-        else:
-            recipes = obj.recipe_set.all()
+            try:
+                recipes_limit = int(recipes_limit)
+            except ValueError:
+                raise serializers.ValidationError(
+                    _('recipe_limit must be integer'),
+                )
+        recipes = obj.recipe_set.all()[:recipes_limit]
         return ShortRecipeSerializer(
             recipes, many=True, context=context
         ).data
 
     def get_recipes_count(self, obj):
         return obj.recipe_set.count()
+
+    def validate(self, data):
+        request = self.context.get('request')
+        recipes_limit = request.query_params.get('recipes_limit')
+
+        return data
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -93,4 +102,5 @@ class FollowSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         context = {'request': request}
         return FollowListSerializer(
-            instance.following, context=context).data
+            instance.following, context=context
+        ).data

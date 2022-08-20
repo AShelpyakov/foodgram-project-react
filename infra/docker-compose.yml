@@ -12,7 +12,7 @@ services:
     volumes:
       - static_value:/app/backend_static/
       - media_value:/app/media/
-      - ../data/ingredients.json:/app/api/fixtures/ingredients.json
+      - ../data/ingredients.json:/app/recipes/fixtures/ingredients.json
     depends_on:
       - db
     env_file:

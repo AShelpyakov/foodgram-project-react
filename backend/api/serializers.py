@@ -4,12 +4,12 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from users.serializers import SubscribedUserSerializer
-from .constants import INGREDIENT_MIN_AMOUNT
-from .models import (
+from recipes.constants import INGREDIENT_MIN_AMOUNT
+from recipes.models import (
     Favorite, Ingredient, Recipe,
     RecipeIngredients, ShoppingCart, Tag,
 )
+from users.serializers import SubscribedUserSerializer
 from .shared_serializers import ShortRecipeSerializer
 
 

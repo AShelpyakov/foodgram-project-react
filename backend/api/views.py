@@ -8,11 +8,11 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_204_NO_CONTENT, HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import ModelViewSet
 
-from .filters import IngredientSearchFilter, RecipeFilter
-from .models import (
+from recipes.models import (
     Favorite, Ingredient, Recipe,
     RecipeIngredients, ShoppingCart, Tag,
 )
+from .filters import IngredientSearchFilter, RecipeFilter
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (
     FavoriteSerializer, IngredientSerializer, RecipeReadSerializer,

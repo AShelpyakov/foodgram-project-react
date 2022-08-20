@@ -70,12 +70,6 @@ class FollowListSerializer(serializers.ModelSerializer):
     def get_recipes_count(self, obj):
         return obj.recipe_set.count()
 
-    def validate(self, data):
-        request = self.context.get('request')
-        recipes_limit = request.query_params.get('recipes_limit')
-
-        return data
-
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:

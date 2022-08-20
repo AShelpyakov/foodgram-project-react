@@ -34,15 +34,15 @@ TELEGRAM_TOKEN=jdsdsfsf:dsfjenjdskdfjdf # токен вашего телегра
 - Для запуска CI-CD, изменить что-то в проекте и отправить изменения на GitHub
 - Произвести миграцию на сервере с Docker (опционально, при изменении в структуре базы данных или перовом запуске)
 ```
-docker-compose exec web python manage.py migrate
+docker-compose exec django python manage.py migrate
 ```
 - Создать административного пользователя (опционально, при первом запуске)
 ```
-docker-compose exec web python manage.py createsuperuser
+docker-compose exec django python manage.py createsuperuser
 ```
 - Перенести статику в папку для NGINX (опционально, при первом запуске)
 ```
-docker-compose exec web python manage.py collectstatic --no-input
+docker-compose exec django python manage.py collectstatic --no-input
 ```
 ### Автор
 Александр Шельпяков

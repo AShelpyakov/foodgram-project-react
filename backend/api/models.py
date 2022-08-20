@@ -1,9 +1,14 @@
+from colorfield.fields import ColorField
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .constants import COOKING_TIME_MIN_VALUE, INGREDIENT_MIN_AMOUNT
+from .constants import (
+    COLOR_PALETTE,
+    COOKING_TIME_MIN_VALUE,
+    INGREDIENT_MIN_AMOUNT,
+)
 
 User = get_user_model()
 
@@ -45,11 +50,12 @@ class Tag(models.Model):
         null=False,
         unique=True
     )
-    color = models.CharField(
+    color = ColorField(
+        default='#FF0000',
+        samples=COLOR_PALETTE,
         verbose_name=_('tag color'),
-        max_length=7,
         blank=False,
-        null=True,
+        null=False,
     )
     slug = models.SlugField(
         verbose_name=_('tag slug'),
@@ -100,10 +106,7 @@ class Recipe(models.Model):
         validators=[
             MinValueValidator(
                 COOKING_TIME_MIN_VALUE,
-                message=(
-                    _('Time must be equal or more then ')
-                    + f'{COOKING_TIME_MIN_VALUE}'
-                ),
+                message=_('Time must be equal or more then 1'),
             )
         ]
     )
@@ -133,10 +136,7 @@ class RecipeIngredients(models.Model):
         validators=[
             MinValueValidator(
                 INGREDIENT_MIN_AMOUNT,
-                message=(
-                    _('Amount must be equal or more then ')
-                    + f'{INGREDIENT_MIN_AMOUNT}'
-                ),
+                message=_('Amount must be equal or more then 1'),
             )
         ],
     )

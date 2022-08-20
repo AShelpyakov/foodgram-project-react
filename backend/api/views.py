@@ -112,6 +112,17 @@ class RecipeViewSet(ModelViewSet):
         shopping_cart.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
+    def get_text_shopping_cart(self, ingredients):
+        shopping_cart = _('shopping cart:') + '\n'
+        for ingredient in ingredients:
+            shopping_cart += (
+                    f'{ingredient["ingredient__name"]} - '
+                    + f'{ingredient["total_amount"]}'
+                    + f'{ingredient["ingredient__measurement_unit"]}.'
+                    + '\n'
+            )
+        return shopping_cart
+
     @action(
         detail=False,
         permission_classes=(IsAuthenticated,),
@@ -121,19 +132,18 @@ class RecipeViewSet(ModelViewSet):
         user = request.user
         values_list = ('ingredient__name', 'ingredient__measurement_unit')
         ingredients = RecipeIngredients.objects.filter(
-            recipe__shoppingcart__user=user).values(*values_list).annotate(
-            total_amount=Sum('amount')).order_by(*values_list)
-        shopping_cart = _('shopping cart:') + '\n'
-        for ingredient in ingredients:
-            shopping_cart += (
-                f'{ingredient["ingredient__name"]} - '
-                + f'{ingredient["total_amount"]}'
-                + f'{ingredient["ingredient__measurement_unit"]}.'
-                + '\n'
-            )
-        response = HttpResponse(shopping_cart, content_type='text/plain')
-        response['Content-Disposition'] = (
-            'attachment; '
-            + 'filename="shopping_cart.txt"'
+            recipe__shoppingcart__user=user
+        ).values(*values_list).annotate(
+            total_amount=Sum('amount')
+        ).order_by(*values_list)
+
+        response = HttpResponse(
+            self.get_text_shopping_cart(ingredients),
+            headers={
+                'Content-Type': 'text/plain',
+                'Content-Disposition': (
+                    'attachment; filename="shopping_cart.txt"'
+                ),
+            },
         )
         return response

@@ -5,7 +5,6 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from users.serializers import SubscribedUserSerializer
-
 from .constants import INGREDIENT_MIN_AMOUNT
 from .models import (
     Favorite, Ingredient, Recipe,

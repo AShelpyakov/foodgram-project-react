@@ -136,7 +136,7 @@ class RecipeViewSet(ModelViewSet):
             total_amount=Sum('amount')
         ).order_by(*values_list)
 
-        response = HttpResponse(
+        return HttpResponse(
             self.get_text_shopping_cart(ingredients),
             headers={
                 'Content-Type': 'text/plain',
@@ -145,4 +145,3 @@ class RecipeViewSet(ModelViewSet):
                 ),
             },
         )
-        return response

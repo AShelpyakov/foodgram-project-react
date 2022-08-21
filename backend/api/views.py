@@ -10,14 +10,14 @@ from rest_framework.viewsets import ModelViewSet
 
 from recipes.models import (
     Favorite, Ingredient, Recipe,
-    RecipeIngredients, ShoppingCart, Tag,
+    RecipeIngredients, ShoppingCart, Tag
 )
+
 from .filters import IngredientSearchFilter, RecipeFilter
 from .permissions import IsAuthorOrReadOnly
-from .serializers import (
-    FavoriteSerializer, IngredientSerializer, RecipeReadSerializer,
-    RecipeWriteSerializer, ShoppingCartSerializer, TagSerializer,
-)
+from .serializers import (FavoriteSerializer, IngredientSerializer,
+                          RecipeReadSerializer, RecipeWriteSerializer,
+                          ShoppingCartSerializer, TagSerializer)
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):

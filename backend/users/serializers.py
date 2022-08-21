@@ -5,6 +5,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from api.shared_serializers import ShortRecipeSerializer
+
 from .models import Follow
 
 User = get_user_model()

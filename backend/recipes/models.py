@@ -5,9 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .constants import (
-    COLOR_PALETTE,
-    COOKING_TIME_MIN_VALUE,
-    INGREDIENT_MIN_AMOUNT,
+    COLOR_PALETTE, COOKING_TIME_MIN_VALUE, INGREDIENT_MIN_AMOUNT,
 )
 
 User = get_user_model()

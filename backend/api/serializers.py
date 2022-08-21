@@ -10,6 +10,7 @@ from recipes.models import (
     RecipeIngredients, ShoppingCart, Tag,
 )
 from users.serializers import SubscribedUserSerializer
+
 from .shared_serializers import ShortRecipeSerializer
 
 

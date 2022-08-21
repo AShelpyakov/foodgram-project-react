@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import (
     Favorite, Ingredient, Recipe,
-    RecipeIngredients, ShoppingCart, Tag,
+    RecipeIngredients, ShoppingCart, Tag
 )
 
 

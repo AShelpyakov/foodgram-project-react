@@ -47,4 +47,4 @@ docker-compose exec django python manage.py collectstatic --no-input
 ### Автор
 Александр Шельпяков
 ### Тестовый сервер:
-В работе.
+http://62.84.127.60/

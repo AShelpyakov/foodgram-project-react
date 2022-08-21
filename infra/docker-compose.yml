@@ -7,20 +7,18 @@ services:
     env_file:
       - .env
   django:
-    build: ../backend/
+    image: yapracticum31/foodgram-backend
     restart: always
     volumes:
       - static_value:/app/backend_static/
       - media_value:/app/media/
-      - ../data/ingredients.json:/app/recipes/fixtures/ingredients.json
+      - ./data/ingredients.json:/app/recipes/fixtures/ingredients.json
     depends_on:
       - db
     env_file:
       - .env
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: yapracticum31/foodgram-frontend
     volumes:
       - ../frontend/:/app/result_build/
   nginx:

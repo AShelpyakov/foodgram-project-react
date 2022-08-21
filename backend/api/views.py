@@ -12,7 +12,6 @@ from recipes.models import (
     Favorite, Ingredient, Recipe,
     RecipeIngredients, ShoppingCart, Tag
 )
-
 from .filters import IngredientSearchFilter, RecipeFilter
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (FavoriteSerializer, IngredientSerializer,
@@ -116,10 +115,10 @@ class RecipeViewSet(ModelViewSet):
         shopping_cart = _('shopping cart:') + '\n'
         for ingredient in ingredients:
             shopping_cart += (
-                    f'{ingredient["ingredient__name"]} - '
-                    + f'{ingredient["total_amount"]}'
-                    + f'{ingredient["ingredient__measurement_unit"]}.'
-                    + '\n'
+                f'{ingredient["ingredient__name"]} - '
+                + f'{ingredient["total_amount"]}'
+                + f'{ingredient["ingredient__measurement_unit"]}.'
+                + '\n'
             )
         return shopping_cart
 

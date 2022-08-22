@@ -47,7 +47,7 @@ docker compose exec django python manage.py createsuperuser
 ```
 docker compose exec django python manage.py collectstatic --no-input
 ```
-- Перенести статику в папку для NGINX (опционально, при первом запуске)
+- Загрузить ингредиенты (опционально, при первом запуске)
 ```
 docker compose exec django python manage.py loaddata ingredients
 ```

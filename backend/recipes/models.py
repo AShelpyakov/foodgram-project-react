@@ -60,8 +60,6 @@ class Tag(models.Model):
         populate_from='name',
         verbose_name=_('tag slug'),
         max_length=200,
-        blank=False,
-        null=True,
         unique=True,
     )
 

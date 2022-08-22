@@ -18,10 +18,7 @@ class IngredientAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'color')
     search_fields = ('name',)
-    prepopulated_fields = {'slug': ('name',)}
 
-
-admin.site.register(Tag, TagAdmin)
 
 
 @admin.register(Recipe)

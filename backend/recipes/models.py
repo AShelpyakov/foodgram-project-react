@@ -1,3 +1,4 @@
+from autoslug import AutoSlugField
 from colorfield.fields import ColorField
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
@@ -55,7 +56,8 @@ class Tag(models.Model):
         blank=False,
         null=False,
     )
-    slug = models.SlugField(
+    slug = AutoSlugField(
+        populate_from='name',
         verbose_name=_('tag slug'),
         max_length=200,
         blank=False,

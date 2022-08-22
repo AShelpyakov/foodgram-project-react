@@ -20,7 +20,6 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'author', 'recipe_favorite_count')

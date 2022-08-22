@@ -13,9 +13,10 @@ Docker-Compose,
 Docker Hub,
 GitHub.
 ### Запуск проекта
-- Склонировать репозиторий на GitHub 
-- Установить docker и docker-compose, на linux систему
-- Скопировать файлы docker-compose.yaml и nginx/default.conf из вашего проекта на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно.
+- Склонировать репозиторий на GitHub.
+- Установить docker и docker-compose, на linux систему.
+- Скопировать файлы infra/docker-compose.yaml и infra/nginx.conf из вашего проекта на сервер в home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx.conf соответственно
+- Скопировать папка data и docs из вашего проекта на сервер.
 - Заполнить в GitHub secrets следующие параметры:
 ```
 DB_ENGINE=django.db.backends.postgresql # указываем, что работаем с postgresql
@@ -30,19 +31,25 @@ DOCKERHUB_TOKEN=djeidfdkddfldf # ваш токен доступа с Docker Hub
 HOST, USER, SSH_KEY # параметры для доступа к серверу с docker и docker-compose
 TELEGRAM_TO=39495235 # ваш telegram id
 TELEGRAM_TOKEN=jdsdsfsf:dsfjenjdskdfjdf # токен вашего телеграм бота
+DEBUG=True # включить DEBUG в DJango
+ALLOWED_HOSTS # список разрешенных хостов
 ```
 - Для запуска CI-CD, изменить что-то в проекте и отправить изменения на GitHub
 - Произвести миграцию на сервере с Docker (опционально, при изменении в структуре базы данных или перовом запуске)
 ```
-docker-compose exec django python manage.py migrate
+docker compose exec django python manage.py migrate
 ```
 - Создать административного пользователя (опционально, при первом запуске)
 ```
-docker-compose exec django python manage.py createsuperuser
+docker compose exec django python manage.py createsuperuser
 ```
 - Перенести статику в папку для NGINX (опционально, при первом запуске)
 ```
-docker-compose exec django python manage.py collectstatic --no-input
+docker compose exec django python manage.py collectstatic --no-input
+```
+- Перенести статику в папку для NGINX (опционально, при первом запуске)
+```
+docker compose exec django python manage.py loaddata ingredients
 ```
 ### Автор
 Александр Шельпяков

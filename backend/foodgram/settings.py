@@ -183,5 +183,3 @@ DJOSER = {
     },
     'HIDE_USERS': False,
 }
-
-AUTOSLUG_SLUGIFY_FUNCTION = 'autoslug.utils.translit_long'

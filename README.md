@@ -55,3 +55,4 @@ docker compose exec django python manage.py loaddata ingredients
 Александр Шельпяков
 ### Тестовый сервер:
 http://62.84.127.60/
+
